@@ -8,7 +8,7 @@ An example implementation of https://github.com/tumblr/colossus/tree/master/colo
  * Colossus
  * Scala
  * Puppet
- * Redis
+ * Redis (redis-2.8.19)
 
 ## Build
 
@@ -24,12 +24,30 @@ vagrant up
 
 ## Test
 
+Run the following commands from vagrant box.
+
+Access vagrant box
+```bash
+cd vagrant
+vagrant ssh
+```
+
+Start service (starts automatically when vagrant started)
+```bash
+sudo service colossus-example start
+```
+
+Stop service
+```bash
+sudo service colossus-example stop
+```
+
 ### Telnet Server
 
 Connect
 
 ```bash
-telnet 10.10.10.50 10010
+telnet localhost 9002
 ```
 
 echo hello
@@ -47,5 +65,27 @@ exit
 ```bash
 exit
 ```
+
+### Http Redis Server
+
+Echo 'Hello World!'
+```bash
+wget -qO- http://localhost:9001
+```
+
+GET Request
+```bash
+# wget -qO- http://localhost:9001/<key>
+wget -qO- http://localhost:9001/a
+```
+
+SET Request
+```bash
+# wget -qO- http://localhost:9001/<key>/<value>
+wget -qO- http://localhost:9001/a/1
+```
+
+
+
 
 

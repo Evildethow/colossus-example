@@ -9,7 +9,7 @@ import colossus.protocols.telnet._
 object TelnetServer {
 
   def start(port: Int)(implicit io: IOSystem): ServerRef = {
-    Service.become[Telnet]("telnet-test", port) {
+    Service.become[Telnet]("telnet-example", port) {
       case TelnetCommand("exit" :: Nil) => TelnetReply("Bye!").onWrite(OnWriteAction.Disconnect)
       case TelnetCommand(List("say", arg)) => TelnetReply(arg)
       case TelnetCommand("version" :: Nil) =>

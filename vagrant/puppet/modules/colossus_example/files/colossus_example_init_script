@@ -1,0 +1,45 @@
+#!/bin/sh
+#
+# Colossus Example init.d script conceived to work on Linux systems
+# as it does use of the /proc filesystem.
+
+NAME="colossus-example"
+ASSEMBLY="${NAME}-assembly"
+VERSION="1.0"
+APP="${ASSEMBLY}-${VERSION}.jar"
+EXEC="java -jar /var/apps/${APP}"
+LOG_DIR="/var/colossus_example/logs"
+PIDFILE="/var/run/colossus-example.pid"
+
+case "$1" in
+    start)
+        if [ -f ${PIDFILE} ]
+        then
+                echo "$PIDFILE exists, process is already running or crashed"
+        else
+                echo "Starting ${APP}..."
+                nohup ${EXEC} >> ${LOG_DIR}/${NAME}.log 2>> ${LOG_DIR}/${NAME}-errors.log < /dev/null & PID=$!
+                echo ${PID} > ${PIDFILE}
+        fi
+        ;;
+    stop)
+        if [ ! -f ${PIDFILE} ]
+        then
+                echo "$PIDFILE does not exist, process is not running"
+        else
+                PID=$(cat ${PIDFILE})
+                echo "Stopping ..."
+                kill ${PID}
+                while [ -x /proc/${PID} ]
+                do
+                    echo "Waiting for ${APP} to shutdown ..."
+                    sleep 1
+                done
+                rm -f ${PIDFILE}
+                echo "${APP} stopped"
+        fi
+        ;;
+    *)
+        echo "Please use start or stop as first argument"
+        ;;
+esac
