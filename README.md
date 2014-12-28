@@ -75,14 +75,14 @@ wget -qO- http://localhost:9001
 
 GET Request
 ```bash
-# wget -qO- http://localhost:9001/<key>
-wget -qO- http://localhost:9001/a
+# wget -qO- http://localhost:9001/get/<key>
+wget -qO- http://localhost:9001/get/a
 ```
 
 SET Request
 ```bash
-# wget -qO- http://localhost:9001/<key>/<value>
-wget -qO- http://localhost:9001/a/1
+# wget -qO- http://localhost:9001/set/<key>/<value>
+wget -qO- http://localhost:9001/set/a/1
 ```
 
 
